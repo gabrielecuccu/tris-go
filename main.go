@@ -6,9 +6,9 @@ import (
 
 func main() {
     game := newGame()
-    game.newMove(ONE, THREE, computerPlayer)
-    game.newMove(TWO, THREE, computerPlayer)
+    game.newMove(ONE, ONE, computerPlayer)
+//     game.newMove(TWO, TWO, computerPlayer)
     game.newMove(THREE, THREE, computerPlayer)
+    fmt.Println(game.canComputerWin())
     fmt.Println(game)
-    fmt.Println(game.hasWin(computerPlayer))
 }
