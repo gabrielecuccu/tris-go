@@ -2,18 +2,14 @@ package main
 
 import (
 	"testing"
+	"gotest.tools/v3/assert"
 )
 
 func TestNewEmptyFieldSize(t *testing.T) {
 	emptyField := newEmptyField()
-	if length := len(emptyField); length != 3 {
-		t.Errorf("field length must have 3 rows, got %d", length)
-	}
-
+	assert.Equal(t, len(emptyField), 3)
 	for row := 0; row < 3; row++ {
-		if length := len(emptyField[row]); length != 3 {
-			t.Errorf("field %d rows must have 3 cols, got %d", row, length)
-		}
+	    assert.Equal(t, len(emptyField[row]), 3)
 	}
 }
 
@@ -21,9 +17,7 @@ func TestNewEmptyFieldContent(t *testing.T) {
 	emptyField := newEmptyField()
 	for row := 0; row < 3; row++ {
 		for col := 0; col < 3; col++ {
-			if c := emptyField[row][col]; c != emptyCell {
-				t.Errorf("cell [%d][%d] must be emptyCell, got %d", row, col, c)
-			}
+		    assert.Equal(t, emptyField[row][col], emptyCell)
 		}
 	}
 }
