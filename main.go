@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+	"tris/lib"
 )
 
 func main() {
-	game := newGame()
-	game.newMove(0, 0, computerPlayer)
-	game.newMove(2, 2, computerPlayer)
-	fmt.Println(game.canWin(computerPlayer))
+	game := lib.NewGame()
+	game.NewMove(0, 0, lib.ComputerPlayer)
+	game.NewMove(2, 2, lib.ComputerPlayer)
+	fmt.Println(game.CanWin(lib.ComputerPlayer))
 	fmt.Println(game)
 }
