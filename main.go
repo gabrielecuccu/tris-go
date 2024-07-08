@@ -1,14 +1,14 @@
 package main
 
 import (
-    "fmt"
+	"fmt"
 )
 
 func main() {
-    game := newGame()
-    game.newMove(ONE, ONE, computerPlayer)
-//     game.newMove(TWO, TWO, computerPlayer)
-    game.newMove(THREE, THREE, computerPlayer)
-    fmt.Println(game.canComputerWin())
-    fmt.Println(game)
+	game := newGame()
+	game.newMove(ONE, ONE, computerPlayer)
+	//     game.newMove(TWO, TWO, computerPlayer)
+	game.newMove(THREE, THREE, computerPlayer)
+	fmt.Println(game.canComputerWin())
+	fmt.Println(game)
 }
