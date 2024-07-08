@@ -38,3 +38,46 @@ func TestNewMove(t *testing.T) {
 	assert.Equal(t, aGame.gameField[2][1], emptyCell)
 	assert.Equal(t, aGame.gameField[2][2], emptyCell)
 }
+
+func TestCanWin(t *testing.T) {
+    // new game, nobody can win
+	newGame := newGame()
+	assert.Equal(t, newGame.canWin(computerPlayer), winner{false, 0, 0})
+	assert.Equal(t, newGame.canWin(humanPlayer), winner{false, 0, 0})
+
+    // nobody can win
+	newGame.gameField = &field{
+		{computerCell, emptyCell, emptyCell},
+		{emptyCell, emptyCell, emptyCell},
+		{emptyCell, emptyCell, emptyCell},
+	}
+	assert.Equal(t, newGame.canWin(computerPlayer), winner{false, 0, 0})
+	assert.Equal(t, newGame.canWin(humanPlayer), winner{false, 0, 0})
+
+    // computer can win
+    newGame.gameField = &field{
+        {computerCell, humanCell, computerCell},
+        {emptyCell, emptyCell, emptyCell},
+        {computerCell, emptyCell, emptyCell},
+    }
+    assert.Equal(t, newGame.canWin(computerPlayer), winner{true, 1, 0})
+    assert.Equal(t, newGame.canWin(humanPlayer), winner{false, 0, 0})
+
+    // human can win
+    newGame.gameField = &field{
+        {computerCell, humanCell, humanCell},
+        {humanCell, emptyCell, computerCell},
+        {computerCell, humanCell, emptyCell},
+    }
+    assert.Equal(t, newGame.canWin(computerPlayer), winner{false, 0, 0})
+    assert.Equal(t, newGame.canWin(humanPlayer), winner{true, 1, 1})
+
+    // both human and computer can win
+    newGame.gameField = &field{
+        {computerCell, humanCell, computerCell},
+        {emptyCell, humanCell, emptyCell},
+        {computerCell, emptyCell, emptyCell},
+    }
+    assert.Equal(t, newGame.canWin(computerPlayer), winner{true, 1, 0})
+    assert.Equal(t, newGame.canWin(humanPlayer), winner{true, 2, 1})
+}
