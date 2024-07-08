@@ -24,12 +24,12 @@ func (g game) newMove(row, col int, p player) {
 	}
 }
 
-func (g game) canComputerWin() winner {
+func (g game) canWin(p player) winner {
 	for row := 0; row < 3; row++ {
 		for col := 0; col < 3; col++ {
 			if curCell := g.gameField[row][col]; curCell == emptyCell {
-				g.gameField[row][col] = computerCell
-				canWin := g.hasWin(computerPlayer)
+				g.gameField[row][col] = p.toCell()
+				canWin := g.hasWin(p)
 				g.gameField[row][col] = emptyCell
 				if canWin == true {
 					return winner{true, row, col}
