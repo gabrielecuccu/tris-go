@@ -82,3 +82,154 @@ func TestCanWin(t *testing.T) {
     assert.Equal(t, newGame.CanWin(lib.ComputerPlayer), lib.Winner{true, 1, 0})
     assert.Equal(t, newGame.CanWin(lib.HumanPlayer), lib.Winner{true, 2, 1})
 }
+
+func TestHasWin(t *testing.T) {
+    // new game, nobody can win
+	newGame := lib.NewGame()
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), false)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), false)
+
+    // computer can win (horizontal 1)
+    newGame.GameField = &lib.Field{
+        {lib.ComputerCell, lib.ComputerCell, lib.ComputerCell},
+        {lib.EmptyCell, lib.EmptyCell, lib.EmptyCell},
+        {lib.EmptyCell, lib.EmptyCell, lib.EmptyCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), true)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), false)
+
+	// computer can win (horizontal 2)
+    newGame.GameField = &lib.Field{
+        {lib.EmptyCell, lib.EmptyCell, lib.EmptyCell},
+        {lib.ComputerCell, lib.ComputerCell, lib.ComputerCell},
+        {lib.EmptyCell, lib.EmptyCell, lib.EmptyCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), true)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), false)
+
+	// computer can win (horizontal 3)
+    newGame.GameField = &lib.Field{
+        {lib.EmptyCell, lib.EmptyCell, lib.EmptyCell},
+        {lib.EmptyCell, lib.EmptyCell, lib.EmptyCell},
+        {lib.ComputerCell, lib.ComputerCell, lib.ComputerCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), true)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), false)
+	
+    // human can win (horizontal 1)
+    newGame.GameField = &lib.Field{
+        {lib.HumanCell, lib.HumanCell, lib.HumanCell},
+        {lib.EmptyCell, lib.EmptyCell, lib.EmptyCell},
+        {lib.EmptyCell, lib.EmptyCell, lib.EmptyCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), false)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), true)
+
+	// human can win (horizontal 2)
+    newGame.GameField = &lib.Field{
+        {lib.EmptyCell, lib.EmptyCell, lib.EmptyCell},
+        {lib.HumanCell, lib.HumanCell, lib.HumanCell},
+        {lib.EmptyCell, lib.EmptyCell, lib.EmptyCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), false)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), true)
+
+	// human can win (horizontal 3)
+    newGame.GameField = &lib.Field{
+        {lib.EmptyCell, lib.EmptyCell, lib.EmptyCell},
+        {lib.EmptyCell, lib.EmptyCell, lib.EmptyCell},
+        {lib.HumanCell, lib.HumanCell, lib.HumanCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), false)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), true)
+
+    // computer can win (vertical 1)
+    newGame.GameField = &lib.Field{
+        {lib.ComputerCell, lib.EmptyCell, lib.EmptyCell},
+        {lib.ComputerCell, lib.EmptyCell, lib.EmptyCell},
+        {lib.ComputerCell, lib.EmptyCell, lib.EmptyCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), true)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), false)
+
+    // computer can win (vertical 2)
+    newGame.GameField = &lib.Field{
+        {lib.EmptyCell, lib.ComputerCell, lib.EmptyCell},
+        {lib.EmptyCell, lib.ComputerCell, lib.EmptyCell},
+        {lib.EmptyCell, lib.ComputerCell, lib.EmptyCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), true)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), false)
+
+    // computer can win (vertical 3)
+    newGame.GameField = &lib.Field{
+        {lib.EmptyCell, lib.EmptyCell, lib.ComputerCell},
+        {lib.EmptyCell, lib.EmptyCell, lib.ComputerCell},
+        {lib.EmptyCell, lib.EmptyCell, lib.ComputerCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), true)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), false)
+
+    // human can win (vertical 1)
+    newGame.GameField = &lib.Field{
+        {lib.HumanCell, lib.EmptyCell, lib.EmptyCell},
+        {lib.HumanCell, lib.EmptyCell, lib.EmptyCell},
+        {lib.HumanCell, lib.EmptyCell, lib.EmptyCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), false)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), true)
+
+    // human can win (vertical 2)
+    newGame.GameField = &lib.Field{
+        {lib.EmptyCell, lib.HumanCell, lib.EmptyCell},
+        {lib.EmptyCell, lib.HumanCell, lib.EmptyCell},
+        {lib.EmptyCell, lib.HumanCell, lib.EmptyCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), false)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), true)
+
+    // human can win (vertical 3)
+    newGame.GameField = &lib.Field{
+        {lib.EmptyCell, lib.EmptyCell, lib.HumanCell},
+        {lib.EmptyCell, lib.EmptyCell, lib.HumanCell},
+        {lib.EmptyCell, lib.EmptyCell, lib.HumanCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), false)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), true)
+
+    // computer can win (diagonal 1)
+    newGame.GameField = &lib.Field{
+        {lib.ComputerCell, lib.EmptyCell, lib.EmptyCell},
+        {lib.EmptyCell, lib.ComputerCell, lib.EmptyCell},
+        {lib.EmptyCell, lib.EmptyCell, lib.ComputerCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), true)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), false)
+
+	// computer can win (diagonal 2)
+    newGame.GameField = &lib.Field{
+        {lib.EmptyCell, lib.EmptyCell, lib.ComputerCell},
+        {lib.EmptyCell, lib.ComputerCell, lib.EmptyCell},
+        {lib.ComputerCell, lib.EmptyCell, lib.EmptyCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), true)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), false)
+
+    // human can win (diagonal 1)
+    newGame.GameField = &lib.Field{
+        {lib.HumanCell, lib.EmptyCell, lib.EmptyCell},
+        {lib.EmptyCell, lib.HumanCell, lib.EmptyCell},
+        {lib.EmptyCell, lib.EmptyCell, lib.HumanCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), false)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), true)
+
+	// human can win (diagonal 2)
+    newGame.GameField = &lib.Field{
+        {lib.EmptyCell, lib.EmptyCell, lib.HumanCell},
+        {lib.EmptyCell, lib.HumanCell, lib.EmptyCell},
+        {lib.HumanCell, lib.EmptyCell, lib.EmptyCell},
+    }
+	assert.Equal(t, newGame.HasWin(lib.ComputerPlayer), false)
+	assert.Equal(t, newGame.HasWin(lib.HumanPlayer), true)
+}

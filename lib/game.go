@@ -29,7 +29,7 @@ func (g game) CanWin(p Player) Winner {
 		for col := 0; col < 3; col++ {
 			if curCell := g.GameField [row][col]; curCell == EmptyCell {
 				g.GameField [row][col] = p.ToCell()
-				canWin := g.hasWin(p)
+				canWin := g.HasWin(p)
 				g.GameField [row][col] = EmptyCell
 				if canWin == true {
 					return Winner{true, row, col}
@@ -41,7 +41,7 @@ func (g game) CanWin(p Player) Winner {
 	return Winner{false, 0, 0}
 }
 
-func (g game) hasWin(p Player) bool {
+func (g game) HasWin(p Player) bool {
 	c := p.ToCell()
 	f := g.GameField 
 	for row := 0; row < 3; row++ {
