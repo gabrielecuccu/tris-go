@@ -21,8 +21,8 @@ func TestNewGame(t *testing.T) {
 
 func TestNewMove(t *testing.T) {
 	aGame := newGame()
-	aGame.newMove(ONE, THREE, computerPlayer)
-	aGame.newMove(TWO, ONE, humanPlayer)
+	aGame.newMove(0, 2, computerPlayer)
+	aGame.newMove(1, 0, humanPlayer)
 
 	aGameStr := fmt.Sprintf("%s", aGame)
 	wanted := fmt.Sprintf("[0 0 1]\n[2 0 0]\n[0 0 0]\n")

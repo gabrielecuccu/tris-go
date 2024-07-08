@@ -10,15 +10,15 @@ type game struct {
 
 type winner struct {
 	exists bool
-	row    position
-	col    position
+	row    int
+	col    int
 }
 
 func (g game) String() string {
 	return fmt.Sprintf("%v\n%v\n%v\n", g.gameField[0], g.gameField[1], g.gameField[2])
 }
 
-func (g game) newMove(row, col position, p player) {
+func (g game) newMove(row, col int, p player) {
 	if cell := g.gameField[row][col]; cell == emptyCell {
 		g.gameField[row][col] = p.toCell()
 	}
@@ -32,7 +32,7 @@ func (g game) canComputerWin() winner {
 				canWin := g.hasWin(computerPlayer)
 				g.gameField[row][col] = emptyCell
 				if canWin == true {
-					return winner{true, position(row), position(col)}
+					return winner{true, row, col}
 				}
 			}
 		}
@@ -56,11 +56,11 @@ func (g game) hasWin(p player) bool {
 		}
 	}
 
-	if f[ONE][ONE] == c && f[TWO][TWO] == c && f[THREE][THREE] == c {
+	if f[0][0] == c && f[1][1] == c && f[2][2] == c {
 		return true
 	}
 
-	if f[ONE][THREE] == c && f[TWO][TWO] == c && f[THREE][ONE] == c {
+	if f[0][2] == c && f[1][1] == c && f[2][0] == c {
 		return true
 	}
 
