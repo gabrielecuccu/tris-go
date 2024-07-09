@@ -11,6 +11,17 @@ import (
 	"tris/lib"
 )
 
+func startNewGame(state *State, buttons *[3][3]*widget.Button, description string, computerTurn bool) {
+    state.description.Set(description)
+    state.computerTurn.Set(computerTurn)
+    state.field.EmptyTheField()
+    for row := 0; row < 3; row++ {
+        for col := 0; col < 3; col++ {
+            buttons[row][col].SetText("")
+        }
+    }
+}
+
 func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *widget.Button {
     var button *widget.Button
     field := state.field
@@ -31,14 +42,7 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
             time.Sleep(2 * time.Second)
 
             // a new game starts here
-            state.description.Set("Computer's turn")
-            state.computerTurn.Set(true)
-            field.StartNewGame()
-            for row := 0; row < 3; row++ {
-                for col := 0; col < 3; col++ {
-                    buttons[row][col].SetText("")
-                }
-            }
+            startNewGame(state, buttons, "Computer's turn", true)
         }
 
         if field.IsGameEnded() == true {
@@ -46,14 +50,7 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
             time.Sleep(2 * time.Second)
 
             // a new game starts here
-            state.description.Set("Computer's turn")
-            state.computerTurn.Set(true)
-            field.StartNewGame()
-            for row := 0; row < 3; row++ {
-                for col := 0; col < 3; col++ {
-                    buttons[row][col].SetText("")
-                }
-            }
+            startNewGame(state, buttons, "Computer's turn", true)
         }
 
         state.description.Set("Computer's turn")
@@ -68,14 +65,7 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
             time.Sleep(2 * time.Second)
 
             // a new game starts here
-            state.description.Set("Your turn")
-            state.computerTurn.Set(false)
-            field.StartNewGame()
-            for row := 0; row < 3; row++ {
-                for col := 0; col < 3; col++ {
-                    buttons[row][col].SetText("")
-                }
-            }
+            startNewGame(state, buttons, "Your turn", false)
         }
 
         winner = field.CanWin(lib.HumanPlayer)
@@ -88,14 +78,7 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
                 time.Sleep(2 * time.Second)
 
                 // a new game starts here
-                state.description.Set("Your turn")
-                state.computerTurn.Set(false)
-                field.StartNewGame()
-                for row := 0; row < 3; row++ {
-                    for col := 0; col < 3; col++ {
-                        buttons[row][col].SetText("")
-                    }
-                }
+                startNewGame(state, buttons, "Your turn", false)
             }
 
             state.description.Set("Your turn")
@@ -112,14 +95,7 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
             time.Sleep(2 * time.Second)
 
             // a new game starts here
-            state.description.Set("Your turn")
-            state.computerTurn.Set(false)
-            field.StartNewGame()
-            for row := 0; row < 3; row++ {
-                for col := 0; col < 3; col++ {
-                    buttons[row][col].SetText("")
-                }
-            }
+            startNewGame(state, buttons, "Your turn", false)
         }
 
         state.description.Set("Your turn")
