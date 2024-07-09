@@ -18,6 +18,7 @@ func startNewGame(state *State, buttons *[3][3]*widget.Button, description strin
     for row := 0; row < 3; row++ {
         for col := 0; col < 3; col++ {
             buttons[row][col].SetText("")
+            buttons[row][col].SetIcon(nil)
         }
     }
 }
@@ -33,7 +34,7 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
         state.computerTurn.Set(true)
 
         field.NewMove(row, col, lib.HumanPlayer)
-        button.SetText("H")
+        button.SetIcon(GetHumanIcon())
 
         if field.HasWin(lib.HumanPlayer) {
             state.description.Set("You won!")
@@ -59,7 +60,7 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
         winner := field.CanWin(lib.ComputerPlayer)
         if winner.Exists {
             field.NewMove(winner.Row, winner.Col, lib.ComputerPlayer)
-            buttons[winner.Row][winner.Col].SetText("C")
+            buttons[winner.Row][winner.Col].SetIcon(GetComputerIcon())
             state.description.Set("Computer won!")
             state.incComputerScore()
             time.Sleep(2 * time.Second)
@@ -71,7 +72,7 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
         winner = field.CanWin(lib.HumanPlayer)
         if winner.Exists {
             field.NewMove(winner.Row, winner.Col, lib.ComputerPlayer)
-            buttons[winner.Row][winner.Col].SetText("C")
+            buttons[winner.Row][winner.Col].SetIcon(GetComputerIcon())
 
             if field.IsGameEnded() == true {
                 state.description.Set("Nobody won!")
@@ -88,7 +89,7 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
 
         rRow, rCol := field.GetRandomEmptyCell()
         field.NewMove(rRow, rCol, lib.ComputerPlayer)
-        buttons[rRow][rCol].SetText("C")
+        buttons[rRow][rCol].SetIcon(GetComputerIcon())
 
         if field.IsGameEnded() == true {
             state.description.Set("Nobody won!")
