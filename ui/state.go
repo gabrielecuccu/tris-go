@@ -6,23 +6,26 @@ import (
 )
 
 type State struct {
-    Description binding.String
+    description binding.String
     scoreHuman binding.Int
     scoreComputer binding.Int
     field *lib.Field
+    computerTurn binding.Bool
 }
 
 func NewState() *State {
     state := &State {
-        Description: binding.NewString(),
+        description: binding.NewString(),
         scoreHuman: binding.NewInt(),
         scoreComputer: binding.NewInt(),
         field: lib.NewEmptyField(),
+        computerTurn: binding.NewBool(),
     }
 
-    state.Description.Set("You: 0 - Computer: 0 | Your turn")
+    state.description.Set("Your turn")
     state.scoreComputer.Set(0)
     state.scoreHuman.Set(0)
+    state.computerTurn.Set(false)
 
     return state
 }
