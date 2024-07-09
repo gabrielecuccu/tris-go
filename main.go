@@ -1,9 +1,9 @@
 package main
 
 import (
-    "fyne.io/fyne/v2"
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
-    "tris/ui"
+	"tris/ui"
 )
 
 func main() {
@@ -12,9 +12,9 @@ func main() {
 	myWindow.Resize(fyne.NewSize(500, 500))
 	myWindow.SetFixedSize(true)
 
-    state := ui.NewState()
+	state := ui.NewState()
 
-    gameContainer := ui.NewGameContainer(state)
+	gameContainer := ui.NewGameContainer(state)
 
 	myWindow.SetContent(gameContainer)
 	myWindow.ShowAndRun()
