@@ -1,14 +1,21 @@
 package main
 
 import (
-	"fmt"
-	"tris/lib"
+    "fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/app"
+    "tris/ui"
 )
 
 func main() {
-	game := lib.NewGame()
-	game.NewMove(0, 0, lib.ComputerPlayer)
-	game.NewMove(2, 2, lib.ComputerPlayer)
-	fmt.Println(game.CanWin(lib.ComputerPlayer))
-	fmt.Println(game)
+	myApp := app.New()
+	myWindow := myApp.NewWindow("Tris")
+	myWindow.Resize(fyne.NewSize(500, 500))
+	myWindow.SetFixedSize(true)
+
+    state := ui.NewState()
+
+    gameContainer := ui.NewGameContainer(state)
+
+	myWindow.SetContent(gameContainer)
+	myWindow.ShowAndRun()
 }
