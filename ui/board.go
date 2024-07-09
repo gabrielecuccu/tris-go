@@ -15,7 +15,6 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
     button = widget.NewButton("", func() {
         field.NewMove(row, col, lib.HumanPlayer)
         button.SetText("H")
-        buttons[0][0].SetText("C")
 
         if field.HasWin(lib.HumanPlayer) {
             /// something
@@ -33,15 +32,18 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
 
         winner = field.CanWin(lib.HumanPlayer)
         if winner.Exists {
-            field.NewMove(winner.Row, winner.Col, lib.HumanPlayer)
+            field.NewMove(winner.Row, winner.Col, lib.ComputerPlayer)
             buttons[winner.Row][winner.Col].SetText("C")
             state.description.Set("Your turn")
             state.computerTurn.Set(false)
             return
         }
 
-        // choose a random move
-        // human turn
+        rRow, rCol := field.GetRandomEmptyCell()
+        field.NewMove(rRow, rCol, lib.ComputerPlayer)
+        buttons[rRow][rCol].SetText("C")
+        state.description.Set("Your turn")
+        state.computerTurn.Set(false)
     })
 
     buttons[row][col] = button
