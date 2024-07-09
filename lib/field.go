@@ -2,6 +2,7 @@ package lib
 
 import (
     "fmt"
+    "math/rand/v2"
 )
 
 type Field [3][3]cell
@@ -70,4 +71,14 @@ func (field *Field) HasWin(p Player) bool {
 	}
 
 	return false
+}
+
+func (field *Field) GetRandomEmptyCell() (int, int) {
+    for {
+        row := rand.IntN(3)
+        col := rand.IntN(3)
+        if c := field[row][col]; c == EmptyCell {
+            return row, col
+        }
+    }
 }
