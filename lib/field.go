@@ -94,3 +94,11 @@ func (field *Field) IsGameEnded() bool {
 
     return true
 }
+
+func (field *Field) StartNewGame() {
+    for row := 0; row < 3; row++ {
+        for col := 0; col < 3; col++ {
+            field[row][col] = EmptyCell
+        }
+    }
+}

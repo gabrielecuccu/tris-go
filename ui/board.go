@@ -27,12 +27,33 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
         if field.HasWin(lib.HumanPlayer) {
             state.description.Set("You won!")
             state.incHumanScore()
-            return
+
+            time.Sleep(2 * time.Second)
+
+            // a new game starts here
+            state.description.Set("Computer's turn")
+            state.computerTurn.Set(true)
+            field.StartNewGame()
+            for row := 0; row < 3; row++ {
+                for col := 0; col < 3; col++ {
+                    buttons[row][col].SetText("")
+                }
+            }
         }
 
         if field.IsGameEnded() == true {
             state.description.Set("Nobody won!")
-            return
+            time.Sleep(2 * time.Second)
+
+            // a new game starts here
+            state.description.Set("Computer's turn")
+            state.computerTurn.Set(true)
+            field.StartNewGame()
+            for row := 0; row < 3; row++ {
+                for col := 0; col < 3; col++ {
+                    buttons[row][col].SetText("")
+                }
+            }
         }
 
         state.description.Set("Computer's turn")
@@ -44,8 +65,17 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
             buttons[winner.Row][winner.Col].SetText("C")
             state.description.Set("Computer won!")
             state.incComputerScore()
+            time.Sleep(2 * time.Second)
+
+            // a new game starts here
+            state.description.Set("Your turn")
             state.computerTurn.Set(false)
-            return
+            field.StartNewGame()
+            for row := 0; row < 3; row++ {
+                for col := 0; col < 3; col++ {
+                    buttons[row][col].SetText("")
+                }
+            }
         }
 
         winner = field.CanWin(lib.HumanPlayer)
@@ -55,7 +85,17 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
 
             if field.IsGameEnded() == true {
                 state.description.Set("Nobody won!")
-                return
+                time.Sleep(2 * time.Second)
+
+                // a new game starts here
+                state.description.Set("Your turn")
+                state.computerTurn.Set(false)
+                field.StartNewGame()
+                for row := 0; row < 3; row++ {
+                    for col := 0; col < 3; col++ {
+                        buttons[row][col].SetText("")
+                    }
+                }
             }
 
             state.description.Set("Your turn")
@@ -69,7 +109,17 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
 
         if field.IsGameEnded() == true {
             state.description.Set("Nobody won!")
-            return
+            time.Sleep(2 * time.Second)
+
+            // a new game starts here
+            state.description.Set("Your turn")
+            state.computerTurn.Set(false)
+            field.StartNewGame()
+            for row := 0; row < 3; row++ {
+                for col := 0; col < 3; col++ {
+                    buttons[row][col].SetText("")
+                }
+            }
         }
 
         state.description.Set("Your turn")
