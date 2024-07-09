@@ -1,6 +1,7 @@
 package ui
 
 import (
+    "time"
     "fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
 	"fyne.io/fyne/v2/layout"
@@ -25,6 +26,8 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
             state.description.Set("Nobody won!")
             return
         }
+
+        time.Sleep(1 * time.Second)
 
         state.computerTurn.Set(true)
         winner := field.CanWin(lib.ComputerPlayer)
