@@ -13,6 +13,16 @@ type State struct {
     computerTurn binding.Bool
 }
 
+func (state *State) incComputerScore() {
+    score, _ := state.scoreComputer.Get()
+    state.scoreComputer.Set(score + 1)
+}
+
+func (state *State) incHumanScore() {
+    score, _ := state.scoreHuman.Get()
+    state.scoreHuman.Set(score + 1)
+}
+
 func NewState() *State {
     state := &State {
         description: binding.NewString(),

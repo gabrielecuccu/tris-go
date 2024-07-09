@@ -1,11 +1,13 @@
 package ui
 
 import (
+    "fmt"
     "time"
     "fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/data/binding"
 	"tris/lib"
 )
 
@@ -24,6 +26,7 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
 
         if field.HasWin(lib.HumanPlayer) {
             state.description.Set("You won!")
+            state.incHumanScore()
             return
         }
 
@@ -32,6 +35,7 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
             return
         }
 
+        state.description.Set("Computer's turn")
         time.Sleep(1 * time.Second)
 
         winner := field.CanWin(lib.ComputerPlayer)
@@ -39,6 +43,7 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
             field.NewMove(winner.Row, winner.Col, lib.ComputerPlayer)
             buttons[winner.Row][winner.Col].SetText("C")
             state.description.Set("Computer won!")
+            state.incComputerScore()
             state.computerTurn.Set(false)
             return
         }
@@ -76,7 +81,7 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
     return  button
 }
 
-func NewGameContainer(state *State) *fyne.Container {
+func newGameField(state *State) *fyne.Container {
     buttons := &[3][3]*widget.Button{}
 
     button1 := newCellButton(state, 0, 0, buttons)
@@ -89,12 +94,36 @@ func NewGameContainer(state *State) *fyne.Container {
     button8 := newCellButton(state, 2, 1, buttons)
     button9 := newCellButton(state, 2, 2, buttons)
 
-    fieldContainer := container.New(layout.NewGridLayout(3), button1, button2, button3, button4, button5, button6, button7, button8, button9)
+    return container.New(layout.NewGridLayout(3), button1, button2, button3, button4, button5, button6, button7, button8, button9)
+}
 
-    statusLabel := widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{Bold: true})
-    statusLabel.Bind(state.description)
+func newStatusBarTop(state *State) *fyne.Container {
+    humanScoreLabel := widget.NewLabelWithStyle("Your score:", fyne.TextAlignCenter, fyne.TextStyle{Bold: true})
+    humanScoreValue := widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{Bold: true})
+    state.scoreHuman.AddListener(binding.NewDataListener(func() {
+        newScore, _ := state.scoreHuman.Get()
+        humanScoreValue.SetText(fmt.Sprintf("%d", newScore))
+    }))
 
-	contentContainer := container.NewBorder(nil, statusLabel, nil, nil, fieldContainer)
+    computerScoreLabel := widget.NewLabelWithStyle("Computer's score:", fyne.TextAlignCenter, fyne.TextStyle{Bold: true})
+    computerScoreValue := widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{Bold: true})
+    state.scoreComputer.AddListener(binding.NewDataListener(func() {
+        newScore, _ := state.scoreComputer.Get()
+        computerScoreValue.SetText(fmt.Sprintf("%d", newScore))
+    }))
+
+    return container.New(layout.NewGridLayout(4), humanScoreLabel, humanScoreValue, computerScoreLabel, computerScoreValue)
+}
+
+func NewGameContainer(state *State) *fyne.Container {
+    gameField := newGameField(state)
+    
+    statusBarBottom := widget.NewLabelWithStyle("", fyne.TextAlignCenter, fyne.TextStyle{Bold: true})
+    statusBarBottom.Bind(state.description)
+
+    statusBarTop := newStatusBarTop(state)
+
+	contentContainer := container.NewBorder(statusBarTop, statusBarBottom, nil, nil, gameField)
 
 	return contentContainer
 }
