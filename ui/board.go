@@ -17,9 +17,15 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
         button.SetText("H")
 
         if field.HasWin(lib.HumanPlayer) {
-            /// something
+            state.description.Set("You won!")
             return
         }
+
+        if field.IsGameEnded() == true {
+            state.description.Set("Nobody won!")
+            return
+        }
+
         state.computerTurn.Set(true)
         winner := field.CanWin(lib.ComputerPlayer)
         if winner.Exists {
@@ -34,6 +40,12 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
         if winner.Exists {
             field.NewMove(winner.Row, winner.Col, lib.ComputerPlayer)
             buttons[winner.Row][winner.Col].SetText("C")
+
+            if field.IsGameEnded() == true {
+                state.description.Set("Nobody won!")
+                return
+            }
+
             state.description.Set("Your turn")
             state.computerTurn.Set(false)
             return
@@ -42,6 +54,12 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
         rRow, rCol := field.GetRandomEmptyCell()
         field.NewMove(rRow, rCol, lib.ComputerPlayer)
         buttons[rRow][rCol].SetText("C")
+
+        if field.IsGameEnded() == true {
+            state.description.Set("Nobody won!")
+            return
+        }
+
         state.description.Set("Your turn")
         state.computerTurn.Set(false)
     })
