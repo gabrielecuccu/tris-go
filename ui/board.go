@@ -6,7 +6,6 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/data/binding"
 	"tris/lib"
 )
 
@@ -14,6 +13,12 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
     var button *widget.Button
     field := state.field
     button = widget.NewButton("", func() {
+        if ct, _ := state.computerTurn.Get(); ct == true {
+            return
+        }
+
+        state.computerTurn.Set(true)
+
         field.NewMove(row, col, lib.HumanPlayer)
         button.SetText("H")
 
@@ -29,7 +34,6 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
 
         time.Sleep(1 * time.Second)
 
-        state.computerTurn.Set(true)
         winner := field.CanWin(lib.ComputerPlayer)
         if winner.Exists {
             field.NewMove(winner.Row, winner.Col, lib.ComputerPlayer)
@@ -68,14 +72,6 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
     })
 
     buttons[row][col] = button
-
-    state.computerTurn.AddListener(binding.NewDataListener(func() {
-        if v, _ := state.computerTurn.Get(); v == true {
-            button.Disable()
-        } else {
-            button.Enable()
-        }
-    }))
 
     return  button
 }
