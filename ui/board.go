@@ -31,6 +31,10 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
             return
         }
 
+        if state.field[row][col] != lib.EmptyCell {
+            return
+        }
+
         state.computerTurn.Set(true)
 
         field.NewMove(row, col, lib.HumanPlayer)
@@ -67,6 +71,7 @@ func newCellButton(state *State, row, col int, buttons *[3][3]*widget.Button) *w
 
             // a new game starts here
             startNewGame(state, buttons, "Your turn", false)
+            return
         }
 
         winner = field.CanWin(lib.HumanPlayer)
