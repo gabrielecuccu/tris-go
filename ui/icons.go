@@ -1,29 +1,21 @@
 package ui
 
 import (
-    "io"
-    "log"
-    "bytes"
     "fyne.io/fyne/v2"
-    "fyne.io/fyne/v2/storage"
+    _ "embed"
     "sync"
 )
+
+//go:embed resources/computer.png
+var computerIcon []byte
+
+//go:embed resources/human.png
+var humanIcon []byte
 
 var resourceCache = make(map[string]*fyne.StaticResource)
 var cacheMutex sync.Mutex
 
-func readImage(file fyne.URIReadCloser) []byte {
-	defer file.Close()
-
-	var buf bytes.Buffer
-	_, err := io.Copy(&buf, file)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return buf.Bytes()
-}
-
-func loadImage(imageName string) *fyne.StaticResource {
+func getImage(imageName string, bytes *[]byte) *fyne.StaticResource {
     cacheMutex.Lock()
     defer cacheMutex.Unlock()
 
@@ -31,18 +23,16 @@ func loadImage(imageName string) *fyne.StaticResource {
         return res
     }
 
-	imageURI, _ := storage.ParseURI("file://resources/" + imageName)
-	imageFile, _ := storage.OpenFileFromURI(imageURI)
-	imageResource := fyne.NewStaticResource(imageFile.URI().Name(), readImage(imageFile))
+	imageResource := fyne.NewStaticResource(imageName, *bytes)
 	resourceCache[imageName] = imageResource
 
 	return imageResource
 }
 
 func GetComputerIcon() *fyne.StaticResource {
-    return loadImage("computer.png")
+    return getImage("computer.png", &computerIcon)
 }
 
 func GetHumanIcon() *fyne.StaticResource {
-    return loadImage("human.png")
+    return getImage("human.png", &humanIcon)
 }
