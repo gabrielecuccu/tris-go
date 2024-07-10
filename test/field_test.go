@@ -237,3 +237,34 @@ func TestHasWin(t *testing.T) {
 	assert.Equal(t, field.HasWin(lib.ComputerPlayer), false)
 	assert.Equal(t, field.HasWin(lib.HumanPlayer), true)
 }
+
+func TestIsGameEnded(t *testing.T) {
+	field := lib.NewEmptyField()
+	assert.Equal(t, field.IsGameEnded(), false)
+
+    field = &lib.Field{
+        {lib.EmptyCell, lib.HumanCell, lib.ComputerCell},
+        {lib.ComputerCell, lib.HumanCell, lib.HumanCell},
+        {lib.ComputerCell, lib.EmptyCell, lib.ComputerCell},
+    }
+    assert.Equal(t, field.IsGameEnded(), false)
+
+    field = &lib.Field{
+        {lib.HumanCell, lib.HumanCell, lib.ComputerCell},
+        {lib.ComputerCell, lib.ComputerCell, lib.HumanCell},
+        {lib.HumanCell, lib.HumanCell, lib.ComputerCell},
+    }
+    assert.Equal(t, field.IsGameEnded(), true)
+}
+
+func TestEmptyTheField(t *testing.T) {
+    field := lib.NewEmptyField()
+    field = &lib.Field{
+        {lib.HumanCell, lib.HumanCell, lib.ComputerCell},
+        {lib.ComputerCell, lib.ComputerCell, lib.HumanCell},
+        {lib.HumanCell, lib.HumanCell, lib.ComputerCell},
+    }
+
+    field.EmptyTheField()
+    assert.Equal(t, *field, *lib.NewEmptyField())
+}
