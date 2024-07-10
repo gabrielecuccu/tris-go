@@ -6,7 +6,11 @@ import (
     "bytes"
     "fyne.io/fyne/v2"
     "fyne.io/fyne/v2/storage"
+    "sync"
 )
+
+var resourceCache = make(map[string]*fyne.StaticResource)
+var cacheMutex sync.Mutex
 
 func readImage(file fyne.URIReadCloser) []byte {
 	defer file.Close()
@@ -20,9 +24,18 @@ func readImage(file fyne.URIReadCloser) []byte {
 }
 
 func loadImage(imageName string) *fyne.StaticResource {
+    cacheMutex.Lock()
+    defer cacheMutex.Unlock()
+
+    if res, ok := resourceCache[imageName]; ok {
+        return res
+    }
+
 	imageURI, _ := storage.ParseURI("file://resources/" + imageName)
 	imageFile, _ := storage.OpenFileFromURI(imageURI)
 	imageResource := fyne.NewStaticResource(imageFile.URI().Name(), readImage(imageFile))
+	resourceCache[imageName] = imageResource
+
 	return imageResource
 }
 
