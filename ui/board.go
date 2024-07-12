@@ -8,7 +8,7 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/data/binding"
-	"tris/lib"
+	"github.com/gabrielecuccu/tris-go/lib"
 )
 
 func startNewGame(state *State, buttons *[3][3]*widget.Button, description string, computerTurn bool) {

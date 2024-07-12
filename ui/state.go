@@ -2,7 +2,7 @@ package ui
 
 import (
 	"fyne.io/fyne/v2/data/binding"
-	"tris/lib"
+	"github.com/gabrielecuccu/tris-go/lib"
 )
 
 type State struct {

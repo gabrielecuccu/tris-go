@@ -3,7 +3,7 @@ package main
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
-	"tris/ui"
+	"github.com/gabrielecuccu/tris-go/ui"
 )
 
 func main() {

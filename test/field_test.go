@@ -1,9 +1,9 @@
 package test
 
 import (
+    "github.com/gabrielecuccu/tris-go/lib"
 	"gotest.tools/v3/assert"
 	"testing"
-	"tris/lib"
 	"fmt"
 )
 

@@ -1,4 +1,4 @@
-module tris
+module github.com/gabrielecuccu/tris-go
 
 go 1.22.4
 
